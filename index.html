@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Be My Valentine 💖</title>
 
   <style>
@@ -17,7 +17,7 @@
       overflow: hidden;
     }
 
-    .card {
+    .card, #password-section {
       background: #fff0f6;
       padding: 45px 55px;
       border-radius: 28px;
@@ -112,15 +112,51 @@
       opacity: 0.85;
       z-index: 1;
     }
+
+    /* Password Section */
+    #password-section input[type="password"] {
+      padding: 14px 20px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      border: 2px solid #ff4d88;
+      width: 80%;
+      max-width: 320px;
+      margin-bottom: 20px;
+      outline: none;
+    }
+
+    #password-section button {
+      background: #ff4d88;
+      color: white;
+      width: 50%;
+      margin: 0 auto;
+      display: block;
+    }
+
+    #error-msg {
+      color: #d1275a;
+      font-weight: 600;
+      margin-top: 10px;
+      height: 20px;
+    }
   </style>
 </head>
 
 <body>
   <audio id="bgMusic" loop>
-    <source src="love.mp3" type="audio/mpeg">
+    <source src="love.mp3" type="audio/mpeg" />
   </audio>
 
-  <div class="card">
+  <!-- Password Gate -->
+  <div id="password-section">
+    <h1>Enter the secret password 💖</h1>
+    <input type="password" id="passwordInput" placeholder="Type here..." autofocus />
+    <button id="passwordSubmit">Unlock 💗</button>
+    <div id="error-msg"></div>
+  </div>
+
+  <!-- Valentine Card (hidden initially) -->
+  <div class="card" id="valentine" style="display:none;">
     <h1 id="title">Will you be my Valentine? 💘</h1>
     <div class="meme" id="subtitle">To : Mood Swings &lt;3</div>
 
@@ -137,6 +173,11 @@
   </div>
 
   <script>
+    const passwordSection = document.getElementById('password-section');
+    const passwordInput = document.getElementById('passwordInput');
+    const passwordSubmit = document.getElementById('passwordSubmit');
+    const errorMsg = document.getElementById('error-msg');
+    const valentine = document.getElementById('valentine');
     const yesBtn = document.getElementById('yes');
     const noBtn = document.getElementById('no');
     const gallery = document.getElementById('gallery');
@@ -145,8 +186,13 @@
     const title = document.getElementById('title');
     const subtitle = document.getElementById('subtitle');
 
+    // The secret password - change this to your special word/phrase!
+    const SECRET_PASSWORD = "iloveyou";
+
+    // Play music on first body click
     document.body.addEventListener('click', () => music.play(), { once: true });
 
+    // Move NO button randomly
     function moveNo() {
       const padding = 80;
       const x = Math.random() * (window.innerWidth - padding);
@@ -158,6 +204,7 @@
     noBtn.addEventListener('mouseenter', moveNo);
     noBtn.addEventListener('touchstart', moveNo);
 
+    // Heart animations
     function createHeart() {
       const heart = document.createElement('div');
       heart.className = 'heart';
@@ -193,9 +240,29 @@
       burstHearts();
     });
 
+    // Initial no button position
+    moveNo();
 
+    // PASSWORD CHECK
+    passwordSubmit.addEventListener('click', () => {
+      const input = passwordInput.value.trim().toLowerCase();
+      if (input === SECRET_PASSWORD) {
+        // Correct password: show valentine and hide password box
+        passwordSection.style.display = 'none';
+        valentine.style.display = 'block';
+      } else {
+        errorMsg.textContent = 'Try again 😉';
+        passwordInput.value = '';
+        passwordInput.focus();
+      }
+    });
+
+    // Optional: submit password on Enter key
+    passwordInput.addEventListener('keyup', e => {
+      if (e.key === 'Enter') {
+        passwordSubmit.click();
+      }
+    });
   </script>
 </body>
 </html>
-
-
