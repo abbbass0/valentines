@@ -3,199 +3,217 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Be My Valentine 💖</title>
+  <title>For You 💗</title>
 
   <style>
     body {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ffd6e8, #ffeef6);
       height: 100vh;
+      background: linear-gradient(#ffd6e8, #ffeef6);
+      font-family: "Comic Sans MS", cursive;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
     }
 
-    .card {
-      background: #fff0f6;
-      padding: 45px 55px;
-      border-radius: 28px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    .container {
       text-align: center;
-      max-width: 480px;
-      width: 92%;
-      position: relative;
-      z-index: 10;
+      z-index: 2;
     }
 
-    h1 {
-      color: #ff4d88;
-      font-size: 2.3rem;
+    h2 {
+      color: #c7006f;
       margin-bottom: 10px;
     }
 
-    .meme {
-      font-size: 1.1rem;
-      margin-bottom: 30px;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 25px;
-      position: relative;
+    h1 {
+      color: #ff2f92;
+      margin-bottom: 20px;
     }
 
     button {
-      padding: 14px 34px;
+      padding: 14px 28px;
+      font-size: 18px;
       border: none;
-      border-radius: 35px;
-      font-size: 1.1rem;
+      border-radius: 30px;
       cursor: pointer;
-      transition: transform 0.2s ease;
-      z-index: 20;
+      transition: 0.3s;
+      position: relative;
     }
 
     #yes {
-      background: #ff4d88;
+      background: #ff69b4;
       color: white;
+      margin-right: 15px;
     }
 
-    #yes:hover { transform: scale(1.1); }
-
     #no {
-      background: #d8d8d8;
-      color: #555;
-      position: fixed;
+      background: #fff;
+      color: #ff69b4;
+      position: absolute;
     }
 
     .gallery {
       display: none;
-      gap: 18px;
-      justify-content: center;
-      flex-wrap: wrap;
       margin-top: 20px;
     }
 
     .gallery img {
-      width: 170px;
-      height: 170px;
-      object-fit: cover;
+      width: 260px;
       border-radius: 20px;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
       opacity: 0;
-      transform: scale(0.7) translateY(30px);
-      animation: photoIn 0.9s ease forwards;
+      transform: scale(0.8);
+      animation: pop 0.8s forwards;
     }
 
-    .gallery img:nth-child(1) { animation-delay: 0.1s; }
-    .gallery img:nth-child(2) { animation-delay: 0.4s; }
-    .gallery img:nth-child(3) { animation-delay: 0.7s; }
-
-    @keyframes photoIn {
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    @keyframes floatHeart {
-      from { transform: translateY(0) scale(1); opacity: 1; }
-      to { transform: translateY(-120vh) scale(1.4); opacity: 0; }
+    @keyframes pop {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     .heart {
       position: fixed;
       bottom: -20px;
-      font-size: 22px;
-      animation: floatHeart 8s linear infinite;
+      font-size: 20px;
+      animation: float 6s linear infinite;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
+
+    .no-phrase {
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(255, 182, 193, 0.95);
+      color: #b3005e;
+      padding: 14px 22px;
+      border-radius: 30px;
+      font-size: 18px;
+      font-weight: 600;
+      opacity: 0;
       pointer-events: none;
-      opacity: 0.85;
-      z-index: 1;
+      transition: all 0.4s ease;
+      z-index: 9999;
+    }
+
+    .no-phrase.show {
+      opacity: 1;
+      transform: translate(-50%, -60%) scale(1);
     }
   </style>
 </head>
 
 <body>
-  <audio id="bgMusic" loop>
-    <source src="love.mp3" type="audio/mpeg">
-  </audio>
 
-  <div class="card">
-    <h1 id="title">Will you be my Valentine? 💘</h1>
-    <div class="meme" id="subtitle">To : Mood Swings &lt;3</div>
+<!-- 🎵 MUSIC (FIXED) -->
+<audio autoplay loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
 
-    <div class="buttons" id="buttons">
-      <button id="yes">Yes 💕</button>
-      <button id="no">No 😐</button>
-    </div>
+<div class="container" id="main">
+  <h2>To : Mood Swings &lt;3</h2>
+  <h1>Will you be my Valentine? 💐</h1>
+  <button id="yes">Yes 💗</button>
+  <button id="no">No 🙄</button>
+</div>
 
-    <div class="gallery" id="gallery">
-      <img src="pic1.jpeg" />
-      <img src="pic2.jpeg" />
-      <img src="pic3.jpeg" />
-   </div>
-  </div>
+<div class="gallery" id="gallery">
+  <h1>Thought so 💗</h1>
+  <h3>us btw</h3>
+  <img id="slide" src="pic1.jpeg">
+</div>
 
-  <script>
-    const yesBtn = document.getElementById('yes');
-    const noBtn = document.getElementById('no');
-    const gallery = document.getElementById('gallery');
-    const buttons = document.getElementById('buttons');
-    const music = document.getElementById('bgMusic');
-    const title = document.getElementById('title');
-    const subtitle = document.getElementById('subtitle');
+<script>
+  const noBtn = document.getElementById("no");
+  const yesBtn = document.getElementById("yes");
+  const main = document.getElementById("main");
+  const gallery = document.getElementById("gallery");
+  const slide = document.getElementById("slide");
 
-    document.body.addEventListener('click', () => music.play(), { once: true });
+  const pics = ["pic1.jpeg", "pic2.jpeg", "pic3.jpeg", "pic4.jpeg"];
+  let index = 0;
 
-    function moveNo() {
-      const padding = 80;
-      const x = Math.random() * (window.innerWidth - padding);
-      const y = Math.random() * (window.innerHeight - padding);
-      noBtn.style.left = x + 'px';
-      noBtn.style.top = y + 'px';
-    }
+  const phrases = [
+    "hey dont 🥺",
+    "be nice press yes 💗",
+    "haye no dabari hai 😭",
+    "fkyou for pressing no 😤"
+  ];
+  let phraseIndex = 0;
 
-    noBtn.addEventListener('mouseenter', moveNo);
-    noBtn.addEventListener('touchstart', moveNo);
+  function moveNo() {
+    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+  }
 
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.innerText = '💖';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = 6 + Math.random() * 4 + 's';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 10000);
-    }
+  function showPhrase() {
+    const p = document.createElement("div");
+    p.className = "no-phrase";
+    p.innerText = phrases[phraseIndex];
+    phraseIndex = (phraseIndex + 1) % phrases.length;
+    document.body.appendChild(p);
 
-    setInterval(createHeart, 500);
+    setTimeout(() => p.classList.add("show"), 10);
+    setTimeout(() => {
+      p.classList.remove("show");
+      setTimeout(() => p.remove(), 400);
+    }, 1200);
+  }
 
-    function burstHearts() {
-      for (let i = 0; i < 30; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.innerText = '💗';
-        heart.style.left = '50vw';
-        heart.style.bottom = '50vh';
-        heart.style.fontSize = 18 + Math.random() * 22 + 'px';
-        heart.style.animationDuration = 2 + Math.random() * 1.5 + 's';
-        heart.style.transform = `translate(${(Math.random()-0.5)*420}px, ${(Math.random()-0.5)*420}px)`;
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 3000);
-      }
-    }
-
-    yesBtn.addEventListener('click', () => {
-      title.innerText = 'Thought so 😌💗';
-      subtitle.innerText = 'us btw';
-      buttons.style.display = 'none';
-      gallery.style.display = 'flex';
-      burstHearts();
-    });
-
-    // initial no button position
+  noBtn.addEventListener("click", () => {
+    showPhrase();
     moveNo();
-  </script>
+  });
+
+  yesBtn.addEventListener("click", () => {
+    main.style.display = "none";
+    gallery.style.display = "block";
+    burstHearts();
+
+    setInterval(() => {
+      index = (index + 1) % pics.length;
+      slide.style.animation = "none";
+      slide.offsetHeight;
+      slide.src = pics[index];
+      slide.style.animation = "pop 0.8s forwards";
+    }, 2000);
+  });
+
+  function burstHearts() {
+    for (let i = 0; i < 30; i++) {
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.innerText = "💗";
+      h.style.left = Math.random() * 100 + "vw";
+      h.style.fontSize = Math.random() * 20 + 15 + "px";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 6000);
+    }
+  }
+
+  setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerText = "💗";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = Math.random() * 15 + 10 + "px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }, 500);
+</script>
+
 </body>
 </html>
-
