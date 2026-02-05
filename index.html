@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be My Valentine 💖</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffd6e8, #ffeef6);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: #fff0f6;
+      padding: 45px 55px;
+      border-radius: 28px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+      text-align: center;
+      max-width: 480px;
+      width: 92%;
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      color: #ff4d88;
+      font-size: 2.3rem;
+      margin-bottom: 10px;
+    }
+
+    .meme {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    button {
+      padding: 14px 34px;
+      border: none;
+      border-radius: 35px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      z-index: 20;
+    }
+
+    #yes {
+      background: #ff4d88;
+      color: white;
+    }
+
+    #yes:hover { transform: scale(1.1); }
+
+    #no {
+      background: #d8d8d8;
+      color: #555;
+      position: fixed;
+    }
+
+    .gallery {
+      display: none;
+      gap: 18px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .gallery img {
+      width: 170px;
+      height: 170px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+      opacity: 0;
+      transform: scale(0.7) translateY(30px);
+      animation: photoIn 0.9s ease forwards;
+    }
+
+    .gallery img:nth-child(1) { animation-delay: 0.1s; }
+    .gallery img:nth-child(2) { animation-delay: 0.4s; }
+    .gallery img:nth-child(3) { animation-delay: 0.7s; }
+
+    @keyframes photoIn {
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @keyframes floatHeart {
+      from { transform: translateY(0) scale(1); opacity: 1; }
+      to { transform: translateY(-120vh) scale(1.4); opacity: 0; }
+    }
+
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 22px;
+      animation: floatHeart 8s linear infinite;
+      pointer-events: none;
+      opacity: 0.85;
+      z-index: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <audio id="bgMusic" loop>
+    <source src="love.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="card">
+    <h1 id="title">Will you be my Valentine? 💘</h1>
+    <div class="meme" id="subtitle">To : Mood Swings &lt;3</div>
+
+    <div class="buttons" id="buttons">
+      <button id="yes">Yes 💕</button>
+      <button id="no">No 😐</button>
+    </div>
+
+    <div class="gallery" id="gallery">
+      <img src="pic1.jpg" />
+      <img src="pic2.jpg" />
+      <img src="pic3.jpg" />
+    </div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById('yes');
+    const noBtn = document.getElementById('no');
+    const gallery = document.getElementById('gallery');
+    const buttons = document.getElementById('buttons');
+    const music = document.getElementById('bgMusic');
+    const title = document.getElementById('title');
+    const subtitle = document.getElementById('subtitle');
+
+    document.body.addEventListener('click', () => music.play(), { once: true });
+
+    function moveNo() {
+      const padding = 80;
+      const x = Math.random() * (window.innerWidth - padding);
+      const y = Math.random() * (window.innerHeight - padding);
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
+    }
+
+    noBtn.addEventListener('mouseenter', moveNo);
+    noBtn.addEventListener('touchstart', moveNo);
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerText = '💖';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = 6 + Math.random() * 4 + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 10000);
+    }
+
+    setInterval(createHeart, 500);
+
+    function burstHearts() {
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerText = '💗';
+        heart.style.left = '50vw';
+        heart.style.bottom = '50vh';
+        heart.style.fontSize = 18 + Math.random() * 22 + 'px';
+        heart.style.animationDuration = 2 + Math.random() * 1.5 + 's';
+        heart.style.transform = `translate(${(Math.random()-0.5)*420}px, ${(Math.random()-0.5)*420}px)`;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 3000);
+      }
+    }
+
+    yesBtn.addEventListener('click', () => {
+      title.innerText = 'Thought so 😌💗';
+      subtitle.innerText = 'us btw';
+      buttons.style.display = 'none';
+      gallery.style.display = 'flex';
+      burstHearts();
+    });
+
+    // initial no button position
+    moveNo();
+  </script>
+</body>
+</html>
